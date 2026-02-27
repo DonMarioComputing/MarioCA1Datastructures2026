@@ -251,5 +251,24 @@ public class DynamicArray_Shell {
         return removed;
     }
 
+    /**
+     * Removes the first instance of an element (case-insensitive).
+     *
+     * @param element element to remove (must not be null)
+     * @return true if removed, false if not found
+     * @throws IllegalArgumentException if element is null
+     */
+    public boolean remove(String element) {
+        validateForNull(element);
+
+        int index = indexOf(element);
+        if (index == -1) {
+            return false;
+        }
+
+        remove(index);
+        return true;
+    }
+
 
 }
