@@ -98,6 +98,27 @@ public class DynamicArray_Shell {
         }
     }
 
+    /**
+     * Ensures the internal array can store at least one more element.
+     * If full, replaces it with a new larger array.
+     */
+    private void ensureCapacity() {
+        // If internal array is full, expand it
+        if (size == data.length) {
+            int newCapacity = Math.max(INITIAL_CAPACITY, data.length * EXPANSION_FACTOR);
+            // if data.length is 0, multiplying stays 0; make it to INITIAL_CAPACITY
+            if (newCapacity == 0) {
+                newCapacity = INITIAL_CAPACITY;
+            }
 
+            String[] expanded = new String[newCapacity];
+
+            // Copy existing elements into expanded array
+            System.arraycopy(data, 0, expanded, 0, size);
+
+            // Swap references so expanded becomes the new backing array
+            data = expanded;
+        }
+    }
 
 }
