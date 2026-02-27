@@ -99,6 +99,20 @@ public class DynamicArray_Shell {
     }
 
     /**
+     * Validate an index for inserting; add at position.
+     * For inserts allow index == size (insert after last element).
+     *
+     * @param index insert position
+     * @throws IndexOutOfBoundsException if index < 0 or index > size
+     */
+    private void validateIndexForAdd(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Supplied index (" + index + ") is outside bounds of list");
+        }
+    }
+
+
+    /**
      * Ensures the internal array can store at least one more element.
      * If full, replaces it with a new larger array.
      */
@@ -119,6 +133,37 @@ public class DynamicArray_Shell {
             // Swap references so expanded becomes the new backing array
             data = expanded;
         }
+    }
+
+    /**
+     * Validates that a supplied element is not null.
+     *
+     * @param element element to validate
+     * @throws IllegalArgumentException if element is null
+     */
+    private void validateForNull(String element) {
+        if (element == null) {
+            throw new IllegalArgumentException("List does not support null elements");
+        }
+    }
+
+    /**
+     * Adds an element to the end of the list.
+     *
+     * @param element element to add, must not be null
+     * @throws IllegalArgumentException if element is null
+     */
+    public void add(String element) {
+        validateForNull(element);
+
+        // Make sure has space
+        ensureCapacity();
+
+        // Place the element at the first free slot (index == size)
+        data[size] = element;
+
+        // Update
+        size++;
     }
 
 }
