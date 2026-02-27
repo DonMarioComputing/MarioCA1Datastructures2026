@@ -187,4 +187,28 @@ public class DynamicArray_Shell {
         size++;
     }
 
+    /**
+     * Adds an element at a specific index, shifting existing elements right.
+     *
+     * @param index   insert position
+     * @param element element to insert (must not be null)
+     * @throws IllegalArgumentException  if element is null
+     * @throws IndexOutOfBoundsException if index is invalid
+     */
+    public void add(int index, String element) {
+        validateForNull(element);
+        validateIndexForAdd(index);
+
+        ensureCapacity();
+
+        // Shift elements right by one from index size-1
+        // Copy items starting at 'index' to 'index+1'
+        System.arraycopy(data, index, data, index + 1, size - index);
+
+        // Insert new element
+        data[index] = element;
+
+        size++;
+    }
+
 }
