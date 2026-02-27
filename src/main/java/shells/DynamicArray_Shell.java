@@ -307,6 +307,52 @@ public class DynamicArray_Shell {
         return oldValue;
     }
 
+//Your list should contain a method called getSubList() that takes two parameters:
+//The index of the start point of the sublist (inclusive)
+//The index of the end point of the sublist (exclusive)
+//The method should return a new Dynamic Array containing only the elements
+//located between the specified start and end points.
+//The start and end points should be validated and invalid positions
+// should be handled appropriately.
+// Note: where the start and end points are equal,
+// an empty Dynamic Array should be returned
 
+    /**
+     * Returns a new DynamicArray_Shell containing elements from startInclusive (inclusive)
+     * to endExclusive (exclusive).
+     *
+     * Validation rules:
+     * startInclusive must be >= 0
+     * endExclusive must be <= size
+     * startInclusive must be <= endExclusive
+     * if startInclusive == endExclusive, return an empty list
+     *
+     * @param startInclusive starting index (inclusive)
+     * @param endExclusive   ending index (exclusive)
+     * @return a new DynamicArray_Shell containing the requested slice of elements
+     * @throws IndexOutOfBoundsException if indices are invalid
+     */
+    public DynamicArray_Shell getSubList(int startInclusive, int endExclusive) {
+        // Validate range
+        if (startInclusive < 0) {
+            throw new IndexOutOfBoundsException("Start index cannot be < 0");
+        }
+        if (endExclusive > size) {
+            throw new IndexOutOfBoundsException("End index cannot be > size");
+        }
+        if (startInclusive > endExclusive) {
+            throw new IndexOutOfBoundsException("Start index cannot be greater than end index");
+        }
 
+        // Create a new list with capacity equal to the length
+        int sliceLength = endExclusive - startInclusive;
+        DynamicArray_Shell subList = new DynamicArray_Shell(Math.max(sliceLength, INITIAL_CAPACITY));
+
+        // Add elements one by one to keeps logic simple and uses existing validation rules
+        for (int i = startInclusive; i < endExclusive; i++) {
+            subList.add(data[i]);
+        }
+
+        return subList;
+    }
 }
