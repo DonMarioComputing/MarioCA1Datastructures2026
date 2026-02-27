@@ -18,9 +18,35 @@ public class DynamicArray_Shell {
         bootstrap();
     }
 
+    /**
+     * Constructor allowing custom initial capacity.
+     * Capacity must be >= 0.
+     *
+     * @param initialSize initial capacity for internal array
+     * @throws IllegalArgumentException if initialSize is negative
+     */
+    public DynamicArray_Shell(int initialSize) {
+        if (initialSize < 0) {
+            throw new IllegalArgumentException("Initial size cannot be negative");
+        }
+        data = new String[initialSize];
+        size = 0;
+    }
 
-
+     /**
+     * Adds some values so the provided ShellTestBed can immediately show data.
+     */
     private void bootstrap(){
+        // Ensure array exists
+        if (data == null) {
+            data = new String[INITIAL_CAPACITY];
+        }
+
+        // Ensure there's room for 5 items
+        while (data.length < 5) {
+            ensureCapacity();
+        }
+
         for (int i = 0; i < 5; i++) {
             data[i] = "Hello "+ i;
             size++;
