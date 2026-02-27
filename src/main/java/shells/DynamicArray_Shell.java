@@ -211,4 +211,17 @@ public class DynamicArray_Shell {
         size++;
     }
 
+    /**
+     * Checks whether an element exists in the list (case-insensitive).
+     *
+     * @param element element to search for (must not be null)
+     * @return true if present, false otherwise
+     * @throws IllegalArgumentException if element is null
+     */
+    public boolean contains(String element) {
+        validateForNull(element);
+        return indexOf(element) != -1;
+    }
+
+
 }
