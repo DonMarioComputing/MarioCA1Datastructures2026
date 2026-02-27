@@ -223,5 +223,33 @@ public class DynamicArray_Shell {
         return indexOf(element) != -1;
     }
 
+    /**
+     * Removes the element at the specified index, shifting remaining elements left.
+     *
+     * @param index index of element to remove
+     * @return removed element
+     * @throws IndexOutOfBoundsException if index is invalid
+     */
+    public String remove(int index) {
+        validateIndexForAccess(index);
+
+        // Store removed value to return later
+        String removed = data[index];
+
+        // Shift everything after index left by one
+        // move elements from (index+1 to size-1) into (index to size-2)
+        int numberToShift = size - index - 1;
+        if (numberToShift > 0) {
+            System.arraycopy(data, index + 1, data, index, numberToShift);
+        }
+
+        // Clear the duplicate last slot
+        data[size - 1] = null;
+
+        size--;
+
+        return removed;
+    }
+
 
 }
