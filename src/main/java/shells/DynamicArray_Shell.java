@@ -60,7 +60,7 @@ public class DynamicArray_Shell {
      */
     public int size(){
         // todo: Add code to return the number of elements currently in the list
-        throw new UnsupportedOperationException("Remove this line after you finish the method's logic!");
+        return size;
     }
 
     /**
