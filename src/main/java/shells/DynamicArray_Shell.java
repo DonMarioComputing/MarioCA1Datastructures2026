@@ -73,6 +73,31 @@ public class DynamicArray_Shell {
         return size == 0;
     }
 
+    /**
+     * Returns the element at the specified index.
+     *
+     * @param index index/position to read
+     * @return element at that position
+     * @throws IndexOutOfBoundsException if index is < 0 or >= size
+     */
+    public String get(int index) {
+        validateIndexForAccess(index);
+        return data[index];
+    }
+
+    /**
+     * Validate a given index to check if it's within boundaries of the Data in the list.
+     *
+     * @param index index/position to validate
+     * @throws IndexOutOfBoundsException if index < 0 or index >= size
+     */
+    private void validateIndexForAccess(int index) {
+        // Must be within the stored elements, not within the array length
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Supplied index (" + index + ") is outside bounds of list");
+        }
+    }
+
 
 
 }
