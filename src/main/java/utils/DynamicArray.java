@@ -176,5 +176,55 @@ public class DynamicArray {
         size++;
     }
 
-    // todo: removeAll() - remove all instances
+    /**
+     * Replaces the element at the supplied index.
+     *
+     * @param element new element to store (must not be null)
+     * @param index   position to replace (must be 0 to size-1)
+     * @return the element that used to be stored at index
+     * @throws IllegalArgumentException if element is null
+     * @throws IndexOutOfBoundsException if index is invalid
+     */
+    public String set(String element, int index){
+        validateForNull(element);
+        validateForInvalidAccessIndex(index);
+
+        String old = data[index];
+        data[index] = element;
+        return old;
+    }
+
+
+
+    /**
+     * Returns a new DynamicArray containing only elements from startInclusive (inclusive)
+     * to endExclusive (exclusive).
+     *
+     * @param startInclusive start index (inclusive)
+     * @param endExclusive end index (exclusive)
+     * @return new DynamicArray containing the slice
+     * @throws IndexOutOfBoundsException if range is invalid
+     */
+    public DynamicArray getSubList(int startInclusive, int endExclusive){
+        // Range validation
+        if(startInclusive < 0){
+            throw new IndexOutOfBoundsException("Start index cannot be < 0");
+        }
+        if(endExclusive > size){
+            throw new IndexOutOfBoundsException("End index cannot be > size");
+        }
+        if(startInclusive > endExclusive){
+            throw new IndexOutOfBoundsException("Start index cannot be greater than end index");
+        }
+
+        DynamicArray sub = new DynamicArray();
+
+        // If start == end, loop runs 0 times and sub remains empty
+        for(int i = startInclusive; i < endExclusive; i++){
+            sub.add(data[i]);
+        }
+
+        return sub;
+    }
+
 }
