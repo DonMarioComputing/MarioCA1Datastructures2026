@@ -111,6 +111,27 @@ public class DynamicArray_Shell {
         }
     }
 
+    /**
+     * Returns the position of the first case-insensitive match for element.
+     *
+     * @param element element to find (must not be null)
+     * @return index of first match, or -1 if not found
+     * @throws IllegalArgumentException if element is null
+     */
+    public int indexOf(String element) {
+        validateForNull(element);
+
+        // Linear search through the stored data
+        for (int i = 0; i < size; i++) {
+            if (data[i].equalsIgnoreCase(element)) {
+                return i;
+            }
+        }
+
+        // Not found
+        return -1;
+    }
+
 
     /**
      * Ensures the internal array can store at least one more element.
