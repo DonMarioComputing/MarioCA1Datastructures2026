@@ -270,5 +270,43 @@ public class DynamicArray_Shell {
         return true;
     }
 
+// Your list should contain a method called set() that takes two parameters:
+//A String to be added (this may not be null).
+//A position at which to insert the data.
+//The position should be validated and invalid positions handling accordingly.
+//If the position is valid, the data at that position
+// should be replaced with the supplied String,
+// and the original content of that position should be returned.
+// If supplied, null values should not be added.
+
+
+    /**
+     * Replaces the element at the specified index with the supplied element.
+     *
+     * Rules:
+     * element must not be null
+     * index must be valid for access (0 to size-1)
+     * returns the element that was replaced
+     *
+     * @param element new value to store at index (must not be null)
+     * @param index   position to replace
+     * @return the original element previously stored at index
+     * @throws IllegalArgumentException  if element is null
+     * @throws IndexOutOfBoundsException if index is invalid
+     */
+    public String set(String element, int index) {
+        validateForNull(element);
+        validateIndexForAccess(index);
+
+        // Store old value so we can return it
+        String oldValue = data[index];
+
+        // Replace
+        data[index] = element;
+
+        return oldValue;
+    }
+
+
 
 }
