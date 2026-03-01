@@ -633,4 +633,189 @@ class DynamicArrayTest {
                     "array");
         }
     }
+
+//unit test for assigned two methods
+
+    // Tests for set()
+    @Test
+    void set_ValidIndex_ReplacesAndReturnsOldValue() {
+
+        // Create a new DynamicArray instance to test with (starts empty)
+        DynamicArray list = new DynamicArray();
+
+        // Add first element so list becomes ["A"]
+        list.add("A");
+
+        // Add second element so list becomes ["A", "B"]
+        list.add("B");
+
+        // Add third element so list becomes ["A", "B", "C"]
+        list.add("C");
+
+        // Replace the element at index 1 ("B") with "X"
+        // set() should return the old value that was replaced ("B")
+        String old = list.set("X", 1);
+
+        // Check that set() returned the replaced element ("B")
+        assertEquals("B", old, "set() should return the element that was replaced");
+
+        // Check that size did not change
+        assertEquals(3, list.getSize(), "set() should NOT change the size of the list");
+
+        // Confirm index 0 still contains the original first element "A"
+        assertEquals("A", list.get(0));
+
+        // Confirm index 1 now contains the new value "X" after replacement
+        assertEquals("X", list.get(1));
+
+        // Confirm index 2 is still "C"
+        assertEquals("C", list.get(2));
+    }
+
+    @Test
+    void set_InvalidIndex_ThrowsException() {
+
+        // Create a new DynamicArray instance
+        DynamicArray list = new DynamicArray();
+
+        // Add one element so valid indices are only 0
+        // List is now ["A"]
+        list.add("A");
+
+        // Try to replace at index 1.
+        // Index 1 is invalid because size==1, valid access indices are 0..size-1 => 0..0
+        // Therefore set() must throw IndexOutOfBoundsException.
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> list.set("X", 1),
+                "set() must throw IndexOutOfBoundsException when index is outside 0..size-1"
+        );
+    }
+
+    @Test
+    void set_NullElement_ThrowsException() {
+
+        // Create a new DynamicArray instance
+        DynamicArray list = new DynamicArray();
+
+        // Add one element so list is ["A"]
+        list.add("A");
+
+        // Try to set null at index 0.
+        // The assignment rule,"null values should not be added"
+        // So set() must throw IllegalArgumentException for null input.
+        assertThrows(IllegalArgumentException.class,
+                () -> list.set(null, 0),
+                "set() must throw IllegalArgumentException when element is null"
+        );
+
+        // Ensure list is unchanged, size should still be 1
+        assertEquals(1, list.getSize());
+
+        // Ensure the original element is still present at index 0
+        assertEquals("A", list.get(0));
+    }
+
+
+    // Tests for getSubList()
+    @Test
+    void getSubList_ValidRange_ReturnsCorrectSlice() {
+
+        // Create a new DynamicArray
+        DynamicArray list = new DynamicArray();
+
+        // Add elements so list becomes ["A", "B", "C", "D", "E"]
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.add("D");
+        list.add("E");
+
+        // Request a sublist from index 1 (inclusive) to 4 (exclusive)
+        // That means copy indices 1,2,3 => ["B","C","D"]
+        DynamicArray sub = list.getSubList(1, 4);
+
+        // Sublist should contain exactly 3 elements
+        assertEquals(3, sub.getSize());
+
+        // Verify the new sublist contains the correct values in order
+        assertEquals("B", sub.get(0));
+        assertEquals("C", sub.get(1));
+        assertEquals("D", sub.get(2));
+
+        // Ensure the original list has not been modified by getSubList()
+        // Original size should still be 5
+        assertEquals(5, list.getSize());
+
+        // Original first element should still be "A"
+        assertEquals("A", list.get(0));
+
+        // Original last element should still be "E"
+        assertEquals("E", list.get(4));
+    }
+
+    @Test
+    void getSubList_StartEqualsEnd_ReturnsEmptyList() {
+
+        // Create a new DynamicArray
+        DynamicArray list = new DynamicArray();
+
+        // Add elements so list is ["A","B"]
+        list.add("A");
+        list.add("B");
+
+        // Request sublist [1,1)
+        // start == end => contains no elements => empty list expected
+        DynamicArray sub = list.getSubList(1, 1);
+
+        // Verify the returned sublist is empty
+        assertEquals(0, sub.getSize(), "When start == end, getSubList() must return an empty list");
+    }
+
+    @Test
+    void getSubList_StartLessThanZero_ThrowsException() {
+
+        // Create list and add one element so list is ["A"]
+        DynamicArray list = new DynamicArray();
+        list.add("A");
+
+        // startInclusive = -1 is invalid
+        // Must throw IndexOutOfBoundsException
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> list.getSubList(-1, 0),
+                "getSubList() must throw if startInclusive < 0"
+        );
+    }
+
+    @Test
+    void getSubList_EndGreaterThanSize_ThrowsException() {
+
+        // Create list and add two elements so list size is 2 ["A","B"]
+        DynamicArray list = new DynamicArray();
+        list.add("A");
+        list.add("B");
+
+        // endExclusive = 3 is invalid because size==2 and endExclusive must be <= size
+        // Must throw IndexOutOfBoundsException
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> list.getSubList(0, 3),
+                "getSubList() must throw if endExclusive > size"
+        );
+    }
+
+    @Test
+    void getSubList_StartGreaterThanEnd_ThrowsException() {
+
+        // Create list and add two elements so list is ["A","B"]
+        DynamicArray list = new DynamicArray();
+        list.add("A");
+        list.add("B");
+
+        // startInclusive = 2, endExclusive = 1:
+        // start > end is invalid because range would be backwards
+        // Must throw IndexOutOfBoundsException
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> list.getSubList(2, 1),
+                "getSubList() must throw if startInclusive > endExclusive"
+        );
+    }
 }
