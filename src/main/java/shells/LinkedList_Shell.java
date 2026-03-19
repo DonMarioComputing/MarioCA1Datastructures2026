@@ -35,4 +35,13 @@ public class LinkedList_Shell{
     }
 
 
+    /**
+     * Returns if the list is currently empty
+     *
+     * @return true if the list contains no elements, otherwise false
+     */
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
 }
