@@ -79,6 +79,40 @@ public class LinkedList_Shell{
         return current.data;
     }
 
+    /**
+     * Validates the element is not null
+     *
+     * @param element the String value to validate
+     * @throws IllegalArgumentException if element is null
+     */
+    private void validateForNull(String element) {
+        if (element == null) {
+            throw new IllegalArgumentException("Null values are not permitted");
+        }
+    }
 
+    /**
+     * Finds the index of the first case-insensitive match for the supplied element
+     *
+     * @param element the value to search for
+     * @return the index of the first match or -1 if no match is found
+     * @throws IllegalArgumentException if the supplied element is null
+     */
+    public int indexOf(String element) {
+        // Validation
+        validateForNull(element);
+
+        Node current = first;
+
+        // Move through each node in turn
+        for (int i = 0; i < size; i++) {
+            if (current.data.equalsIgnoreCase(element)) {
+                return i;
+            }
+            current = current.next;
+        }
+
+        return -1;
+    }
 
 }
