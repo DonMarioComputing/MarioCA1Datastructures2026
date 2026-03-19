@@ -44,4 +44,41 @@ public class LinkedList_Shell{
         return size == 0;
     }
 
+    /**
+     * Validates an index
+     *
+     * @param index the index to validate
+     * @throws IndexOutOfBoundsException if index is outside the range 0 to size - 1
+     */
+    private void validateIndexForAccess(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Supplied index (" + index + ") is outside bounds of list"
+            );
+        }
+    }
+
+    /**
+     * Returns the element stored at the validated index
+     *
+     * @param index the position to access
+     * @return the element at the validated index
+     * @throws IndexOutOfBoundsException if index is less than 0 or greater than or equal to size
+     */
+    public String get(int index) {
+        // Validation
+        validateIndexForAccess(index);
+
+        Node current = first;
+
+        // Move from node to node until the requested index is reached
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.data;
+    }
+
+
+
 }
