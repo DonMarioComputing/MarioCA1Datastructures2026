@@ -24,4 +24,15 @@ public class LinkedList_Shell{
             this.next = null;
         }
     }
+
+    /**
+     * Returns the number of elements currently stored in the list
+     *
+     * @return current number of elements in the list
+     */
+    public int size() {
+        return size;
+    }
+
+
 }
