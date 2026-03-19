@@ -266,6 +266,27 @@ public class LinkedList_Shell{
         return removed;
     }
 
+    /**
+     * Removes the first case-insensitive instance of the supplied element
+     *
+     * @param element the value to remove
+     * @return true if the element was found and removed, otherwise false
+     * @throws IllegalArgumentException if the supplied element is null
+     */
+    public boolean remove(String element) {
+        // Validation
+        validateForNull(element);
 
+        // Find the first occurrence
+        int index = indexOf(element);
+
+        // Nothing can be removed if not found
+        if (index == -1) {
+            return false;
+        }
+
+        remove(index);
+        return true;
+    }
 
 }
