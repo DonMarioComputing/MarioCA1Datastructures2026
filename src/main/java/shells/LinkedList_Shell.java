@@ -220,5 +220,52 @@ public class LinkedList_Shell{
         size++;
     }
 
+    /**
+     * Removes and returns the element at the supplied index
+     *
+     * @param index the position to remove from
+     * @return the removed element
+     * @throws IndexOutOfBoundsException if index is outside the range 0 to size - 1
+     */
+    public String remove(int index) {
+        // Validation
+        validateIndexForAccess(index);
+
+        String removed;
+
+        // Remove the first element
+        if (index == 0) {
+            removed = first.data;
+            first = first.next;
+
+            // If the list had only one element, last must also become null
+            if (size == 1) {
+                last = null;
+            }
+        } else {
+            Node current = first;
+
+            // Move to the node before the one to remove
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+
+            Node target = current.next;
+            removed = target.data;
+
+            current.next = target.next;
+
+            // Update last if the removed node was the last node
+            if (target == last) {
+                last = current;
+            }
+        }
+
+        size--;
+
+        return removed;
+    }
+
+
 
 }
