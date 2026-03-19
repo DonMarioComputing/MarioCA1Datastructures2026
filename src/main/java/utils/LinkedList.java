@@ -1,6 +1,7 @@
 package utils;
 
-public class LinkedList {
+public class LinkedList implements List{
+
     private int size;
     private Node first;
     private Node last;
@@ -19,53 +20,56 @@ public class LinkedList {
         }
     }
 
-    public void add(String element){
-        validateForNullElement(element);
-
-        Node newNode = new Node(element);
-        if(first == null){
-            first = newNode;
-        }else{
-            last.next = newNode;
-        }
-
-        last = newNode;
-        size++;
-    }
-
-    private static void validateForNullElement(String element) {
-        if(element == null){
-            throw new IllegalArgumentException("Cannot add null to list");
+    /**
+     * Validates that the supplied String is not null
+     *
+     * @param element the value to validate
+     * @throws IllegalArgumentException if the supplied value is null
+     */
+    private static void validateForNull(String element) {
+        if (element == null) {
+            throw new IllegalArgumentException("Null values are not permitted");
         }
     }
 
-    public String getFirst(){
-        if(isEmpty()){
-            return null;
+    /**
+     * Validates an index for access for get, remove, and set
+     *
+     * @param index the index to validate
+     * @throws IndexOutOfBoundsException if index is outside the range 0 to size - 1
+     */
+    private void validateIndexAccess(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
         }
-        return first.data;
     }
 
-    public String getLast(){
-        if(isEmpty()){
-            return null;
+    /**
+     * Validates an index for add operations
+     *
+     * Adding is allowed at positions from 0 to size inclusive
+     *
+     * @param index the index to validate
+     * @throws IndexOutOfBoundsException if index is outside the range 0 to size
+     */
+    private void validateIndexAdd(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
         }
-        return last.data;
     }
 
+    @Override
     public int getSize(){
         return size;
     }
 
     public boolean isEmpty(){
-        if(first == null){
-            return true;
-        }
-        return false;
+        return size == 0;
     }
 
+    @Override
     public String get(int index){
-        validateIndexOutOfBounds(index);
+        validateIndexAccess(index);
 
         Node current = first;
         for (int i = 0; i < index; i++) {
@@ -75,115 +79,85 @@ public class LinkedList {
         return current.data;
     }
 
-    private void validateIndexOutOfBounds(int index) {
-        if(index < 0 || index >= size){
-            throw new IndexOutOfBoundsException("Supplied index outside bounds of list - was " + index + ", list ends" +
-                    " " +
-                    "at " + (size-1));
-        }
-    }
-
-    public void add(int index, String element){
-        // VALIDATION
-        // Validate element to confirm good AND real data : validateForNull
-        validateForNullElement(element);
-        // Validate index to confirm position is within list : validateIndexOutOfBounds
-        validateIndexOutOfBounds(index);
-
-        if(index == 0){
-            Node newNode = new Node(element);
-            newNode.next = first;
-            first = newNode;
-        }else {
-            Node newNode = new Node(element);
-
-            Node current = first;
-            for (int i = 0; i < index - 1; i++) {
-                current = current.next;
-            }
-            newNode.next = current.next;
-            current.next = newNode;
-        }
-        size++;
-    }
-
-    /**
-     * Validate a given index to check if it's within the boundaries of the data in the list (0 - size inclusive).
-
-     * @param index Index/position to validate as existing within this list
-     * @throws IndexOutOfBoundsException if supplied index is < 0 or > size of list
-     */
-    private void validateIndexOutOfBoundsInclusive(int index) {
-        if(index < 0 || index > size){
-            throw new IndexOutOfBoundsException("Supplied index outside bounds of list - was " + index
-                    + ", last " + "allowable position to add: " + (size));
-        }
-    }
-
-    /**
-     * Add a new element at a specified position between 0 and size (inclusive).
-     * This version of the action allows for adding AFTER the data within the list;
-     * it uses the next possible index as its limit
-     * @param index The position at which to insert the new element (0-size inclusive)
-     * @param element The value to be inserted into the list
-     * @throws IllegalArgumentException if the element supplied is null
-     * @throws IndexOutOfBoundsException if the index supplied is < 0 or > size of list
-     */
-    public void addInclusive(int index, String element) {
-        // VALIDATION
-        // Validate element to confirm good AND real data : validateForNull
-        validateForNullElement(element);
-        // Validate index to confirm position is within list (adding at end permitted) :
-        // validateIndexOutOfBoundsInclusive
-        validateIndexOutOfBoundsInclusive(index);
+    @Override
+    public void add(String element) {
+        validateForNull(element);
 
         Node newNode = new Node(element);
 
-        if (size == 0) {            // If the list is empty
+        if (isEmpty()) {
             first = newNode;
             last = newNode;
-        } else if (index == 0) {    // If it's being added to the start
-            newNode.next = first;
-            first = newNode;
-        } else if (index == size){  // If it's being added at the end
+        } else {
             last.next = newNode;
             last = newNode;
-        }else {                     // If it's being added anywhere else in between
+        }
+
+        size++;
+    }
+
+
+    @Override
+    public void add(int index, String element) {
+        validateForNull(element);
+        validateIndexAdd(index);
+
+        Node newNode = new Node(element);
+
+        //Adding to an empty list
+        if (size == 0) {
+            first = newNode;
+            last = newNode;
+        }
+        // Adding at the start
+        else if (index == 0) {
+            newNode.next = first;
+            first = newNode;
+        }
+        // Adding at the end
+        else if (index == size) {
+            last.next = newNode;
+            last = newNode;
+        }
+        else {
             Node current = first;
+
             for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
+
             newNode.next = current.next;
             current.next = newNode;
         }
 
-        // Element added, increase size metadata
         size++;
     }
 
     public String remove(int index){
-        validateIndexOutOfBounds(index);
+        validateIndexAccess(index);
 
-        String removed = null;
-        if(index == 0){
+        String removed;
+        if (index == 0) {
             removed = first.data;
-            if(first == last){
+            first = first.next;
+
+            if (size == 1) {
                 last = null;
             }
-            first = first.next;
-        }else{
+        } else {
             Node current = first;
-            Node prev = null;
 
-            for (int i = 0; i < index; i++) {
-                prev = current;
+            for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
-            removed = current.data;
-            prev.next=current.next;
 
-            if(index == size-1){
-                last = prev;
+            Node target = current.next;
+            removed = target.data;
+
+            current.next = target.next;
+
+            if (target == last) {
+                last = current;
             }
         }
 
@@ -191,12 +165,33 @@ public class LinkedList {
         return removed;
     }
 
-    public int indexOf(String element){
-        validateForNullElement(element);
+    @Override
+    public boolean remove(String element) {
+        validateForNull(element);
+
+        int index = indexOf(element);
+
+        if (index == -1) {
+            return false;
+        }
+
+        remove(index);
+        return true;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public int indexOf(String element) {
+        validateForNull(element);
 
         Node current = first;
-        for(int i = 0; i < size; i++){
-            if(element.equalsIgnoreCase(current.data)){
+
+        for (int i = 0; i < size; i++) {
+            if (current.data.equalsIgnoreCase(element)) {
                 return i;
             }
             current = current.next;
@@ -205,85 +200,10 @@ public class LinkedList {
         return -1;
     }
 
-    public int lastIndexOf(String element){
-        validateForNullElement(element);
-
-        int index = -1;
-
-        Node current = first;
-        for(int i = 0; i < size; i++){
-            if(element.equalsIgnoreCase(current.data)){
-                index = i;
-            }
-            current = current.next;
-        }
-
-        return index;
-    }
-
     public boolean contains(String target){
-        validateForNullElement(target);
+        validateForNull(target);
 
         return indexOf(target) != -1;
     }
 
-
-    public String set(int index, String value){
-        validateIndexOutOfBounds(index);
-        validateForNullElement(value);
-
-        // Loop to specified position (where we want to replace data)
-        Node current = first;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        }
-        // Save old version that is being replaced
-        String replaced = current.data;
-
-        // Replace data with new value
-        current.data = value;
-
-        // return replaced information
-        return replaced;
-    }
-
-    public void clear(){
-        first = null;
-        last = null;
-        size = 0;
-    }
-
-
-    public String[] toArray(){
-        // Create new array of same size as list
-        String [] listArray = new String[size];
-        // for each node in list
-        Node current = first;
-        for (int i = 0; i < size ; i++) {
-            // Copy data from within current node into array at same position
-            listArray[i] = current.data;
-            current = current.next;
-        }
-
-        // Return array
-        return listArray;
-    }
-
-    public void addAll(String [] values){
-        if(values == null){
-            throw new IllegalArgumentException("Array of values cannot be null");
-        }
-
-        // Loop through all values in the string array
-        for (int i = 0; i < values.length; i++) {
-
-            // Add each one that is not null into the current list
-            add(values[i]);
-        }
-    }
-
-    public LinkedList getSublist(int startIndex, int endIndex){
-        // Return a new LinkedList made up of all elements between startIndex and endIndex (exclusive)
-        throw new UnsupportedOperationException("Not done yet!");
-    }
 }
