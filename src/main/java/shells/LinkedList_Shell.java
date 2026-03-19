@@ -130,4 +130,30 @@ public class LinkedList_Shell{
         return indexOf(element) != -1;
     }
 
+    /**
+     * Adds a new element to the end of the list
+     *
+     * @param element the value to add
+     * @throws IllegalArgumentException if the supplied element is null
+     */
+    public void add(String element) {
+        // Validation
+        validateForNull(element);
+
+        // Wrap the new value in a node
+        Node newNode = new Node(element);
+
+        // First and last both point to the new node if the list is empty
+        if (isEmpty()) {
+            first = newNode;
+            last = newNode;
+        } else {
+            // Link the new node after the current last node
+            last.next = newNode;
+            last = newNode;
+        }
+
+        size++;
+    }
+
 }
