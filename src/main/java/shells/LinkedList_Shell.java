@@ -115,4 +115,19 @@ public class LinkedList_Shell{
         return -1;
     }
 
+    /**
+     * Checks whether the supplied element (Search is case-insensitive) exists in the list
+     *
+     * @param element the value to search for
+     * @return true if found, otherwise false
+     * @throws IllegalArgumentException if the supplied element is null
+     */
+    public boolean contains(String element) {
+        // Validation
+        validateForNull(element);
+
+        // Reuse indexOf logic
+        return indexOf(element) != -1;
+    }
+
 }
