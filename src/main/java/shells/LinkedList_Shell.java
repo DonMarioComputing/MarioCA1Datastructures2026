@@ -156,4 +156,69 @@ public class LinkedList_Shell{
         size++;
     }
 
+    /**
+     * Validates an index
+     *
+     * Adding is allowed at positions from 0 to size
+     *
+     * @param index the index to validate
+     * @throws IndexOutOfBoundsException if index is outside the range 0 to size
+     */
+    private void validateIndexForAdd(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException(
+                    "Supplied index (" + index + ") is outside bounds of list"
+            );
+        }
+    }
+
+
+    /**
+     * Adds a new element at the supplied position
+     *
+     * @param index the position at which to insert the new element
+     * @param element the value to insert
+     * @throws IllegalArgumentException if the supplied element is null
+     * @throws IndexOutOfBoundsException if index is outside the range 0 to size
+     */
+    public void add(int index, String element) {
+        // Validation
+        validateForNull(element);
+        validateIndexForAdd(index);
+
+        Node newNode = new Node(element);
+
+        // Adding to an empty list
+        if (isEmpty()) {
+            first = newNode;
+            last = newNode;
+        }
+        // Adding at the start of a non-empty list
+        else if (index == 0) {
+            newNode.next = first;
+            first = newNode;
+        }
+        // Adding at the end
+        else if (index == size) {
+            last.next = newNode;
+            last = newNode;
+        }
+        // Adding somewhere in the middle
+        else {
+            Node current = first;
+
+            // Move to the node before the insertion
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+
+            // Insert the new node
+            newNode.next = current.next;
+            current.next = newNode;
+        }
+
+        size++;
+    }
+
+
 }
