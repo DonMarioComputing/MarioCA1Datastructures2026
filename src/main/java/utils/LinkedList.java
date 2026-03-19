@@ -200,6 +200,22 @@ public class LinkedList implements List{
         return -1;
     }
 
+    public int lastIndexOf(String element) {
+        validateForNull(element);
+
+        int index = -1;
+        Node current = first;
+
+        for (int i = 0; i < size; i++) {
+            if (current.data.equalsIgnoreCase(element)) {
+                index = i;
+            }
+            current = current.next;
+        }
+
+        return index;
+    }
+
     public boolean contains(String target){
         validateForNull(target);
 
