@@ -9,6 +9,15 @@ public class LinkedListPerformanceComparison {
 
         int[] sizes = {10, 100, 1000, 10000};
 
+        long arrayStartTotal = 0;
+        long arrayEndTotal = 0;
+        long arrayMiddleTotal = 0;
+
+        long linkedStartTotal = 0;
+        long linkedEndTotal = 0;
+        long linkedMiddleTotal = 0;
+
+
         for (int size : sizes) {
 
             System.out.println("=================================");
@@ -27,18 +36,21 @@ public class LinkedListPerformanceComparison {
             arrayList.add(0, "NEW");
             long end = System.nanoTime();
             System.out.println("ArrayList Add at Start: " + (end - start));
+            arrayStartTotal += (end - start);
 
             //Add at end
             start = System.nanoTime();
             arrayList.add("NEW");
             end = System.nanoTime();
             System.out.println("ArrayList Add at End: " + (end - start));
+            arrayEndTotal += (end - start);
 
             //Get middle
             start = System.nanoTime();
             arrayList.get(size / 2);
             end = System.nanoTime();
             System.out.println("ArrayList Get Middle: " + (end - start));
+            arrayMiddleTotal += (end - start);
 
 
             //Linkedlist
@@ -53,20 +65,47 @@ public class LinkedListPerformanceComparison {
             linkedList.add(0, "NEW");
             end = System.nanoTime();
             System.out.println("LinkedList Add at Start: " + (end - start));
+            linkedStartTotal += (end - start);
 
             //Add at end
             start = System.nanoTime();
             linkedList.add("NEW");
             end = System.nanoTime();
             System.out.println("LinkedList Add at End: " + (end - start));
+            linkedEndTotal += (end - start);
 
             //Get middle
             start = System.nanoTime();
             linkedList.get(size / 2);
             end = System.nanoTime();
             System.out.println("LinkedList Get Middle: " + (end - start));
+            linkedMiddleTotal += (end - start);
 
             System.out.println();
         }
+
+        int count = sizes.length;
+
+        long arrayStartAvg = arrayStartTotal / count;
+        long arrayEndAvg = arrayEndTotal / count;
+        long arrayMiddleAvg = arrayMiddleTotal / count;
+
+        long linkedStartAvg = linkedStartTotal / count;
+        long linkedEndAvg = linkedEndTotal / count;
+        long linkedMiddleAvg = linkedMiddleTotal / count;
+
+        System.out.println("=================================");
+        System.out.println("Averages");
+        System.out.println("=================================");
+
+        System.out.println("ArrayList Add at Start: " + arrayStartAvg);
+        System.out.println("ArrayList Add at End: " + arrayEndAvg);
+        System.out.println("ArrayList Get Middle: " + arrayMiddleAvg);
+
+        System.out.println();
+
+        System.out.println("LinkedList Add at Start: " + linkedStartAvg);
+        System.out.println("LinkedList Add at End: " + linkedEndAvg);
+        System.out.println("LinkedList Get Middle: " + linkedMiddleAvg);
     }
 }
