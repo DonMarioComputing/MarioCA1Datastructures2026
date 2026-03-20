@@ -84,6 +84,7 @@ public class LinkedListPerformanceComparison {
             System.out.println();
         }
 
+        //Averages for each size
         int count = sizes.length;
 
         long arrayStartAvg = arrayStartTotal / count;
@@ -107,5 +108,55 @@ public class LinkedListPerformanceComparison {
         System.out.println("LinkedList Add at Start: " + linkedStartAvg);
         System.out.println("LinkedList Add at End: " + linkedEndAvg);
         System.out.println("LinkedList Get Middle: " + linkedMiddleAvg);
+
+        //Overall Comparison
+        System.out.println();
+        System.out.println("=================================");
+        System.out.println("Overall Comparison");
+        System.out.println("=================================");
+
+        System.out.println("Add at Start");
+        System.out.println("ArrayList Avg: " + arrayStartAvg);
+        System.out.println("LinkedList Avg: " + linkedStartAvg);
+        System.out.println();
+
+        System.out.println("Add at End");
+        System.out.println("ArrayList Avg: " + arrayEndAvg);
+        System.out.println("LinkedList Avg: " + linkedEndAvg);
+        System.out.println();
+
+        System.out.println("Get Middle Element");
+        System.out.println("ArrayList Avg: " + arrayMiddleAvg);
+        System.out.println("LinkedList Avg: " + linkedMiddleAvg);
+
+        //Explanation
+        System.out.println();
+        System.out.println("=================================");
+        System.out.println("Explanation");
+        System.out.println("=================================");
+
+        System.out.println("Add at Start:");
+        System.out.println("ArrayList is usually slower for adding at the start because all existing elements");
+        System.out.println("must be shifted one position to the right. This gives ArrayList a time complexity");
+        System.out.println("of O(n) for add at start.");
+        System.out.println("LinkedList is usually faster for adding at the start because it only needs to");
+        System.out.println("change the reference to the first node. This gives LinkedList a time complexity");
+        System.out.println("of O(1) for add at start.");
+        System.out.println();
+
+        System.out.println("Add at End:");
+        System.out.println("ArrayList is usually fast for adding at the end, with an average time complexity");
+        System.out.println("of O(1), although resizing can occasionally make a single add slower.");
+        System.out.println("LinkedList is also O(1) for add at end in this implementation because the list");
+        System.out.println("stores a reference to the last node, so the new node can be linked directly.");
+        System.out.println();
+
+        System.out.println("Get Middle Element:");
+        System.out.println("ArrayList is much faster for get middle element because it supports direct index");
+        System.out.println("access, giving a time complexity of O(1).");
+        System.out.println("LinkedList is slower for get middle element because it must traverse from the");
+        System.out.println("first node step by step until it reaches the middle. This gives LinkedList a");
+        System.out.println("time complexity of O(n).");
+        System.out.println();
     }
 }
